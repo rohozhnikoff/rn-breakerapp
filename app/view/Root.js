@@ -24,9 +24,10 @@ class Root extends React.Component {
 
 			<Header roomName={roomName} style={{height: height * 0.1}}/>
 
+			<MessageField onSubmit={(text) => onSendNewMessage(roomName, text)} style={{height: height * 0.1}} />
+
 			<Messages messages={messages} style={{height: height * 0.8}} />
 
-			<MessageField onSubmit={(text) => onSendNewMessage(roomName, text)} style={{height: height * 0.1}} />
 		</View>)
 	}
 }
@@ -35,7 +36,6 @@ Root.defaultProps = {};
 Root.propTypes = {};
 
 function mapStateToProps(state) {
-	console.log('ROOT:::mapStateToProps', state.toJS());
 	return {
 		roomName: state.get('currentRoom'),
 		messages: getAllMessagesEntitiesForCurrentRoom(state)
