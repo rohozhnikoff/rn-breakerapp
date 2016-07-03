@@ -1,0 +1,3 @@
+rootProject.name = 'breaker_mobile'
+
+include ':app'
