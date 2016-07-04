@@ -13,8 +13,11 @@ const STYLE = StyleSheet.create({
 
 class Header extends React.Component {
 	render() {
+		const {connected} = this.props;
 		return (<View style={[this.props.style, STYLE['wrapper']]}>
-			<Text style={STYLE['title']}>{`#${this.props.roomName}`}</Text>
+			<Text style={STYLE['title']}>{`#${this.props.roomName}`}
+				<Text style={{fontSize: 15, color: connected ? 'green' : 'gray'}}>({connected ? 'online' : 'offline'})</Text>
+			</Text>
 		</View>)
 	}
 }

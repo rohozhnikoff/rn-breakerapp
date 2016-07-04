@@ -25,7 +25,6 @@ const STYLE = StyleSheet.create({
 class Message extends React.Component {
 	render() {
 		const {username, message} = this.props;
-		console.log('Message', this.props);
 
 		return (<View style={STYLE['wrapper']}>
 			<Text style={STYLE['username']}>{username}</Text>

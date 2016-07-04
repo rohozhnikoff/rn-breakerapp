@@ -11,10 +11,10 @@ import RNReconnectingWebSocket from '../core/rn-reconnecting-websocket.js'
 function socketConnect () {
   let websocketUrl = Config.websocket_url.replace('ws:', 'wss:');
   const socketOptions = {
-    debug: false,
+    debug: true,
     reconnectInterval: 5000,
     reconnectDecay: 1.5,
-    timeoutInterval: 15000,
+    timeoutInterval: 10000,
   };
   socket = new RNReconnectingWebSocket(websocketUrl, null, socketOptions);
 }

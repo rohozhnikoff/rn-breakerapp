@@ -15,14 +15,14 @@ import { sendNewMessage } from '../web/redux/actions/chat-actions';
 
 class Root extends React.Component {
 	render() {
-		const {roomName, messages, onSendNewMessage} = this.props;
+		const {roomName, messages, onSendNewMessage, connected} = this.props;
 
 		console.log('[Root::render]', this.props);
 
 		return (<View style={this.props.style}>
 			<StatusBar barStyle="light-content"/>
 
-			<Header roomName={roomName} style={{height: height * 0.1}}/>
+			<Header roomName={roomName} style={{height: height * 0.1}} connected={connected} />
 
 			<MessageField onSubmit={(text) => onSendNewMessage(roomName, text)} style={{height: height * 0.1}} />
 
@@ -38,7 +38,8 @@ Root.propTypes = {};
 function mapStateToProps(state) {
 	return {
 		roomName: state.get('currentRoom'),
-		messages: getAllMessagesEntitiesForCurrentRoom(state)
+		messages: getAllMessagesEntitiesForCurrentRoom(state),
+		connected: state.get('ui').get('connected')
 	};
 }
 

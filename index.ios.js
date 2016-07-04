@@ -14,6 +14,13 @@ import _clone from 'lodash/clone'
 import _assign from 'lodash/assign'
 
 import initSocket from './app/web/socket.js';
+//
+//const initSocket = () => {
+//	const socket = new WebSocket('wss://www.breakerapp.com/websocket/room/socket?test=true')
+//	socket.onopen = console.log.bind(console, 'WEBSOCKET onopen')
+//	socket.onmessage = console.log.bind(console, 'WEBSOCKET onmessage')
+//	socket.onerror = console.log.bind(console, 'WEBSOCKET onerror')
+//};
 
 class breaker_mobile extends Component {
 	constructor(props) {
