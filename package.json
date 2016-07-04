@@ -6,6 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "eventemitter3": "^1.2.0",
     "immutable": "^3.8.0",
     "lodash": "^4.13.1",
     "react": "15.1.0",

@@ -6,9 +6,17 @@ import window from '../window-imitate'
 let socket = null;
 let lastPingTime = null;
 
+import RNReconnectingWebSocket from '../core/rn-reconnecting-websocket.js'
+
 function socketConnect () {
   let websocketUrl = Config.websocket_url.replace('ws:', 'wss:');
-  socket = new WebSocket(websocketUrl, null);
+  const socketOptions = {
+    debug: false,
+    reconnectInterval: 5000,
+    reconnectDecay: 1.5,
+    timeoutInterval: 15000,
+  };
+  socket = new RNReconnectingWebSocket(websocketUrl, null, socketOptions);
 }
 
 function init(store) {
@@ -17,6 +25,17 @@ function init(store) {
 
   let pingTimeout = null;
 
+
+  const _originalSend = socket.send.bind(socket);
+
+  socket.send = (msg) => {
+    console.log('[SOCKET::send]', msg);
+    if (socket.readyState) {
+      _originalSend(msg)
+    } else {
+      console.warn('[CustomError]: Socket is not connected');
+    }
+  };
 
   socket.onopen = (event) => {
     console.log('[SOCKET::onopen]', event);
