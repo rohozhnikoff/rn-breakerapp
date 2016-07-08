@@ -14,26 +14,30 @@ import _clone from 'lodash/clone'
 import _assign from 'lodash/assign'
 
 import initSocket from './app/web/socket.js';
-//
-//const initSocket = () => {
-//	const socket = new WebSocket('wss://www.breakerapp.com/websocket/room/socket?test=true')
-//	socket.onopen = console.log.bind(console, 'WEBSOCKET onopen')
-//	socket.onmessage = console.log.bind(console, 'WEBSOCKET onmessage')
-//	socket.onerror = console.log.bind(console, 'WEBSOCKET onerror')
-//};
+
+
+
+
+import {Promise} from 'es6-promise'
+import initialStateJSON from './app/initialState.json';
+const fetchInitialState = () => {
+	//return fetch('https://www.breakerapp.com/application/initialState?test=true').then((res) => res.json())
+	return new Promise((resolve) => resolve(initialStateJSON))
+};
+
 
 class breaker_mobile extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
 
 		this.state = {
 			initialStateFetched: false
 		};
 
-		/* LOADING INITIAL STATE */
-		fetch('https://www.breakerapp.com/application/initialState?test=true')
-				.then((res) => res.json())
+		// todo: why top level initialized two times?
+		fetchInitialState()
 				.then((__INITIAL_STATE__) => {
+					console.log(555);
 					const reachedInitialState = _assign(__INITIAL_STATE__, {
 						currentRoom: 'zikapp'
 					});
@@ -50,12 +54,13 @@ class breaker_mobile extends Component {
 	}
 
 	renderLoader() {
+		const {height, width} = Dimensions.get('window');
 		const wrapperStyles = {
 			backgroundColor: '#333',
 			alignItems: 'center',
 			justifyContent: 'center',
-			height: Dimensions.get('window').height,
-			width: Dimensions.get('window').width
+			height,
+			width,
 		};
 		return <View style={wrapperStyles}>
 			<Text style={{
@@ -71,8 +76,6 @@ class breaker_mobile extends Component {
 
 	render() {
 		const {initialStateFetched, store} = this.state;
-
-		console.log('[breaker_mobile::render]', {initialStateFetched, store}, store && store.getState());
 
 		if (initialStateFetched) {
 			return <Provider store={store}>

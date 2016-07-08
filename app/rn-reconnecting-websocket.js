@@ -15,8 +15,6 @@ var EventEmitter = require('eventemitter3');
     }
 
     function ReconnectingWebSocket(url, protocols, options) {
-        console.log('new ReconnectingWebSocket', {url, protocols, options});
-
         // Default settings
         var settings = {
 
@@ -66,7 +64,6 @@ var EventEmitter = require('eventemitter3');
          * Can be one of: WebSocket.CONNECTING, WebSocket.OPEN, WebSocket.CLOSING, WebSocket.CLOSED
          * Read only.
          */
-        console.log(234, WebSocket.CONNECTING);
         this.readyState = WebSocket.CONNECTING;
 
         /**
@@ -109,7 +106,6 @@ var EventEmitter = require('eventemitter3');
         this.addEventListener = eventTarget.on.bind(eventTarget);
         this.removeEventListener = eventTarget.removeListener.bind(eventTarget);
         this.dispatchEvent = ([name, args]) => {
-            console.log('dispatchEvent', name, args);
             eventTarget.emit(name, args)
         };
 
@@ -132,7 +128,6 @@ var EventEmitter = require('eventemitter3');
         };
 
         this.open = function (reconnectAttempt) {
-            console.log('[rn-reconnecting::open]', reconnectAttempt, {url: self.url, protocols});
             ws = new WebSocket(self.url, protocols);
             ws.binaryType = this.binaryType;
 
@@ -160,7 +155,6 @@ var EventEmitter = require('eventemitter3');
             }, self.timeoutInterval);
 
             ws.onopen = function(event) {
-                console.log('ws.onopen', event);
                 clearTimeout(timeout);
                 if (self.debug || ReconnectingWebSocket.debugAll) {
                     console.debug('ReconnectingWebSocket', 'onopen', self.url);
@@ -175,7 +169,6 @@ var EventEmitter = require('eventemitter3');
             };
 
             ws.onclose = function(event) {
-                console.log('ws.onclose', event);
                 clearTimeout(timeout);
                 ws = null;
                 if (forcedClose) {
@@ -203,14 +196,12 @@ var EventEmitter = require('eventemitter3');
                 }
             };
             ws.onmessage = function(event) {
-                console.log('ws.onmessage', event);
                 if (self.debug || ReconnectingWebSocket.debugAll) {
                     console.debug('ReconnectingWebSocket', 'onmessage', self.url, event.data);
                 }
                 self.dispatchEvent(['message', event]);
             };
             ws.onerror = function(event) {
-                console.log('ws.onerror', event);
                 if (self.debug || ReconnectingWebSocket.debugAll) {
                     console.debug('ReconnectingWebSocket', 'onerror', self.url, event);
                 }

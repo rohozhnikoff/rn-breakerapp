@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 
-const STYLE = StyleSheet.create({
+const STYLES = StyleSheet.create({
 	wrapper: {
 		backgroundColor: '#edf1f2',
 		padding: 12
@@ -28,8 +28,8 @@ class MessageField extends React.Component {
 		const {text} = this.state;
 
 
-		return (<View style={[this.props.style, STYLE['wrapper']]}>
-			<TextInput style={STYLE['field']}
+		return (<View style={[this.props.style, STYLES['wrapper']]}>
+			<TextInput style={STYLES['field']}
 					onSubmitEditing={() => onSubmit(text)}
 					value={text}
 					onChangeText={(text) => this.setState({text})}

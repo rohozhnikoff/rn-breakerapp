@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-const STYLE = StyleSheet.create({
+const STYLES = StyleSheet.create({
 	wrapper: {
 		marginBottom: 10
 	},
@@ -26,10 +26,10 @@ class Message extends React.Component {
 	render() {
 		const {username, message} = this.props;
 
-		return (<View style={STYLE['wrapper']}>
-			<Text style={STYLE['username']}>{username}</Text>
-			<Text style={STYLE['message']}>{message}</Text>
-			<View style={STYLE['line']} />
+		return (<View style={STYLES['wrapper']}>
+			<Text style={STYLES['username']}>{username}</Text>
+			<Text style={STYLES['message']}>{message}</Text>
+			<View style={STYLES['line']} />
 		</View>)
 	}
 }

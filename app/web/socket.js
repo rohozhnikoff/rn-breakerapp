@@ -6,7 +6,7 @@ import window from '../window-imitate'
 let socket = null;
 let lastPingTime = null;
 
-import RNReconnectingWebSocket from '../core/rn-reconnecting-websocket.js'
+import RNReconnectingWebSocket from '../rn-reconnecting-websocket.js'
 
 function socketConnect () {
   let websocketUrl = Config.websocket_url.replace('ws:', 'wss:');
