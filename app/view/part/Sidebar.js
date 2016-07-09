@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import I from 'immutable';
 import Icon from '../component/Icon'
 
@@ -33,29 +33,54 @@ const STYLES = StyleSheet.create({
 	'avatar': {
 		marginRight: 10
 	},
+
+	'room-block': {
+		marginTop: 10,
+		marginBottom: 30
+	},
+	'room-title': {
+		color: '#8b8e99',
+		fontSize: 12,
+		marginLeft: 10,
+	},
+	'room-list': {},
 });
 
 class Sidebar extends React.Component {
 	static propTypes = {}
 	static defaultProps = {
-		activeRoomList: I.Map()
+		activeRoomList: I.Map(),
+		roomList: I.Map(),
 	}
 
-	renderRoom(room, name) {
+	renderRoom(onRoomChange, room, name) {
 		const iconUrl = room.get('iconUrl');
 
-		return <View key={name} style={STYLES['room']}>
-			<Icon uri={iconUrl} width={20} height={20} style={STYLES['avatar']} />
-			<Text style={STYLES['name']}>{`#${room.get('displayName')}`}</Text>
-			<Text style={STYLES['users']}>{room.get('activeUsers')}</Text>
-		</View>
+		return <TouchableOpacity onPress={onRoomChange.bind(null, name)} key={name} activeOpacity={.5}>
+			<View style={STYLES['room']}>
+				<Icon uri={iconUrl} width={20} height={20} style={STYLES['avatar']} />
+				<Text style={STYLES['name']}>{`#${room.get('displayName')}`}</Text>
+				<Text style={STYLES['users']}>{room.get('activeUsers')}</Text>
+			</View>
+		</TouchableOpacity>
 	}
 
 	render() {
-		const { activeRoomList } = this.props;
+		const { activeRoomList, onRoomChange, roomList } = this.props;
 
 		return (<View style={STYLES['wrapper']}>
-			{activeRoomList.map(this.renderRoom).toArray()}
+			<View style={STYLES['room-block']}>
+				<Text style={STYLES['room-title']}>Active rooms</Text>
+				<View style={STYLES['room-list']}>
+					{roomList.map(this.renderRoom.bind(null, onRoomChange)).toArray()}
+				</View>
+			</View>
+			<View style={STYLES['room-block']}>
+				<Text style={STYLES['room-title']}>Active rooms</Text>
+				<View style={STYLES['room-list']}>
+					{activeRoomList.map(this.renderRoom.bind(null, () => { console.log('implement @join@ feature first') })).toArray()}
+				</View>
+			</View>
 		</View>)
 	}
 }

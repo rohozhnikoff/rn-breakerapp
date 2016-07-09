@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Text, View, PropTypes, StatusBar, Dimensions, StyleSheet } from 'react-native';
+import { Text, View, PropTypes, StatusBar, Dimensions, StyleSheet, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import Header from './part/Header'
@@ -9,8 +9,10 @@ import MessageField from './MessageField'
 
 import { getAllMessagesEntitiesForCurrentRoom } from '../web/redux/selectors/message-entities-selectors';
 import { getAllActiveRooms } from '../web/redux/selectors/active-rooms-selector';
+import { getAllRooms } from '../web/redux/selectors/rooms-selectors';
 import { getSidebarOpen } from '../web/redux/selectors/ui-selectors';
 
+import { handleChangeRoom } from '../web/redux/actions/chat-actions';
 import { toggleSidebar } from '../web/redux/actions/menu-actions';
 
 const {width, height} = Dimensions.get('window');
@@ -23,23 +25,25 @@ import Sidebar from './part/Sidebar';
 
 const STYLES = StyleSheet.create({
 	wrapper: {},
-	content: {}
+	content: {
+		backgroundColor: 'white'
+	}
 });
 
 
 class Root extends React.Component {
 	render() {
-		const {roomName, messages, onSendNewMessage, connected,
+		const { roomName, messages, onSendNewMessage, connected,
 				isSidebarOpen, toggleSidebarHandle,
-				activeRoomList
+				activeRoomList, roomList, onRoomChange
 				} = this.props;
 
 		return (<View style={STYLES['wrapper']}>
 			<StatusBar barStyle="light-content"/>
 
-			<SideWrapper menu={<Sidebar activeRoomList={activeRoomList} />}
-					//isOpen={isSidebarOpen}
-					isOpen={true}
+			<SideWrapper isOpen={isSidebarOpen}
+					menu={<Sidebar activeRoomList={activeRoomList} roomList={roomList} onRoomChange={onRoomChange}  />}
+					animationFunction={(prop, value) => Animated.timing(prop, { toValue: value, duration: 222 })}
 			>
 				<View style={STYLES['content']}>
 					<Header
@@ -71,6 +75,7 @@ function mapStateToProps(state) {
 		isSidebarOpen: getSidebarOpen(state),
 
 		activeRoomList: getAllActiveRooms(state),
+		roomList: getAllRooms(state),
 	};
 }
 
@@ -85,6 +90,9 @@ function mapDispatchToProps(dispatch) {
 		},
 		toggleSidebarHandle() {
 			return dispatch(toggleSidebar());
+		},
+		onRoomChange(roomName) {
+			dispatch(handleChangeRoom(roomName));
 		}
 	};
 }

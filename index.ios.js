@@ -21,10 +21,12 @@ import initSocket from './app/web/socket.js';
 import {Promise} from 'es6-promise'
 import initialStateJSON from './app/initialState.json';
 const fetchInitialState = () => {
-	//return fetch('https://www.breakerapp.com/application/initialState?test=true').then((res) => res.json())
-	return new Promise((resolve) => resolve(initialStateJSON))
+	return fetch('https://www.breakerapp.com/application/initialState?test=true').then((res) => res.json())
+	//return new Promise((resolve) => resolve(initialStateJSON))
 };
 
+// we need this platform detection in shared redux code
+global.__isReactNative = true;
 
 class breaker_mobile extends Component {
 	constructor(props) {

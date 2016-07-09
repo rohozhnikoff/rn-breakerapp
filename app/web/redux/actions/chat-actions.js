@@ -59,16 +59,21 @@ export function handleChangeRoom(roomName) {
   return (dispatch, getState) => {
     socket().sendRoomMessagesSeen(roomName);
 
-    window.history.replaceState({}, 'Breaker: ', `/r/${roomName}`);
+
+    if(!__isReactNative) {
+      // todo: it should be on routing-component
+      window.history.replaceState({}, 'Breaker: ', `/r/${roomName}`);
+    }
 
     const state = getState();
+    console.log(345, roomName, state.toJS());
     const lastMessageTime = state.getIn(
         ['messages', state.getIn(['roomMessages', roomName]).last(), 'createDateLongUTC']
     );
     dispatch(changeRoom(roomName, lastMessageTime));
     dispatch(menuActions.handleCloseAllMenus());
 
-    if (window.innerWidth > 450) {
+    if (!__isReactNative && window.innerWidth > 450) {
       // Don't do this on mobile
       dispatch(setChatInputFocus());
     }
