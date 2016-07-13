@@ -33,11 +33,6 @@ const STYLES = StyleSheet.create({
 		color: '#58666e',
 		fontSize: 14,
 	},
-	//'line': {
-	//	height: 1,
-	//	backgroundColor: '#cfdadd',
-	//	marginTop: 8
-	//},
 	'avatar': {
 
 	},
@@ -46,7 +41,21 @@ const STYLES = StyleSheet.create({
 	},
 	'message-col': {
 		flex: 5
-	}
+	},
+	'status': {
+		width: 6,
+		height: 6,
+		borderRadius: 3,
+		alignSelf: 'center',
+		marginTop: 3,
+		marginRight: 5,
+	},
+	'status-online': {
+		backgroundColor: 'green',
+	},
+	'status-offline': {
+		backgroundColor: 'gray'
+	},
 });
 
 // todo: make timeZone shift calculation
@@ -59,19 +68,10 @@ class ChatMessage extends React.Component {
 		if(!previousMessage) {
 			return true
 		}
-		console.log(5555555, previousMessage.get('username'), message.get('username'));
-		//return true;
 		return previousMessage.get('username') !== message.get('username')
 	}
 	render() {
 		const {message, onPress, user} = this.props;
-
-		//
-		//user.get('online')
-
-		//console.log(876876, this.isntRepeated());
-		// message.get('username')) === displayName
-		//
 
 		return (<TouchableOpacity onPress={onPress.bind(null, message.get('username'))}>
 			<View style={STYLES['wrapper']}>
@@ -81,6 +81,10 @@ class ChatMessage extends React.Component {
 
 				<View style={STYLES['message-col']}>
 					<View style={STYLES['first-line']}>
+
+						<View style={[STYLES['status'],
+							user.get('online') ? STYLES['status-online'] : STYLES['status-offline']]} />
+
 						<Text style={STYLES['username']}>{message.get('username')}</Text>
 						<Text style={STYLES['date']}><TimeAgo time={message.get('createDate')} /></Text>
 					</View>
