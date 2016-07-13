@@ -21,11 +21,16 @@ import { sendNewMessage } from '../web/redux/actions/chat-actions';
 import SideWrapper from 'react-native-side-menu';
 import Sidebar from './part/Sidebar';
 
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 
 const STYLES = StyleSheet.create({
-	wrapper: {},
+	wrapper: {
+		flex: 1,
+	},
 	content: {
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		flex: 1,
 	},
 	'message-field': {
 		backgroundColor: '#edf1f2',
@@ -75,6 +80,9 @@ class Root extends React.Component {
 							onSandwichPress={toggleSidebarHandle}
 					/>
 
+					<Messages messages={messages} users={users} style={{flex: 1}}
+							onMessagePress={(user) => this.setState({fieldText: addUser(fieldText, user)})} />
+
 					<View style={[STYLES['message-field'], {height: height * 0.1}]}>
 						<TextInput style={STYLES['message-input']}
 								onSubmitEditing={() => onSendNewMessage(roomName, fieldText)}
@@ -83,9 +91,7 @@ class Root extends React.Component {
 						/>
 					</View>
 
-
-					<Messages messages={messages} users={users} style={{height: height * 0.8}}
-							onMessagePress={(user) => this.setState({fieldText: addUser(fieldText, user)})} />
+					<KeyboardSpacer />
 				</View>
 			</SideWrapper>
 		</View>)

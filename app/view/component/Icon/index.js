@@ -28,7 +28,6 @@ function Icon(props) {
 		height: height || 20,
 	};
 	const imgStyle = [STYLES['img'], iconStyle, sizeStyles];
-	console.log(987, uri);
 
 	return <View style={[STYLES['wrapper'], style, sizeStyles]}>
 		{uri ? <Image style={imgStyle} source={{uri: makeUriWithDomain(uri)}} /> : null}

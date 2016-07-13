@@ -100,7 +100,6 @@ export function onSocketClose() {
 export function handleSocketOpen(store, socketInstance) {
   return dispatch => {
     const currentRoom = store.getState().get('currentRoom');
-    //console.log('::handleSocketOpen', currentRoom);
     socketInstance.startRoomPing(currentRoom);
 
     dispatch(onSocketOpen());

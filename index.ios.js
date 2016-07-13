@@ -42,7 +42,7 @@ class breaker_mobile extends Component {
 					console.log(555);
 					const reachedInitialState = _assign(__INITIAL_STATE__, {
 						//currentRoom: 'zikapp'
-						currentRoom: 'breakerapp'
+						currentRoom: 'zikapp'
 					});
 
 					const store = createRootStore(reachedInitialState);

@@ -40,7 +40,7 @@ const STYLES = StyleSheet.create({
 		flex: 1
 	},
 	'message-col': {
-		flex: 5
+		flex: 6
 	},
 	'status': {
 		width: 6,
@@ -70,24 +70,27 @@ class ChatMessage extends React.Component {
 		}
 		return previousMessage.get('username') !== message.get('username')
 	}
+	renderCredentials({user, message}) {
+		return <View style={STYLES['first-line']}>
+			<View style={[STYLES['status'],
+				user.get('online') ? STYLES['status-online'] : STYLES['status-offline']]} />
+
+			<Text style={STYLES['username']}>{message.get('username')}</Text>
+			<Text style={STYLES['date']}><TimeAgo time={new Date(message.get('createDate'))} /></Text>
+		</View>
+	}
 	render() {
 		const {message, onPress, user} = this.props;
+		const isntRepeated = this.isntRepeated();
 
 		return (<TouchableOpacity onPress={onPress.bind(null, message.get('username'))}>
 			<View style={STYLES['wrapper']}>
 				<View style={STYLES['avatar-col']}>
-					{this.isntRepeated() && <Icon uri={user.get('profileImageUrl')} width={40} height={40} style={STYLES['avatar']} />}
+					{isntRepeated && <Icon uri={user.get('profileImageUrl')} width={30} height={30} style={STYLES['avatar']} />}
 				</View>
 
 				<View style={STYLES['message-col']}>
-					<View style={STYLES['first-line']}>
-
-						<View style={[STYLES['status'],
-							user.get('online') ? STYLES['status-online'] : STYLES['status-offline']]} />
-
-						<Text style={STYLES['username']}>{message.get('username')}</Text>
-						<Text style={STYLES['date']}><TimeAgo time={message.get('createDate')} /></Text>
-					</View>
+					{isntRepeated && this.renderCredentials({user, message})}
 					<Text style={STYLES['message']}>{message.get('message')}</Text>
 				</View>
 

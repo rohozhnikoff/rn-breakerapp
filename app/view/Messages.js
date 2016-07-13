@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import ChatMessage from './message/ChatMessage';
 import _partialRight from 'lodash/partialRight'
+import InvertibleScrollView from 'react-native-invertible-scroll-view';
+
+
 
 const STYLES = StyleSheet.create({
 	wrapper: {
-		flex: 1,
-		backgroundColor: '#fff'
+		flex: 1
 	},
 	scroll: {
 		flex: 1,
@@ -18,7 +20,7 @@ class Messages extends React.Component {
 	renderMessage (list, message, i, messages, {onMessagePress, users}) {
 		list.push(
 				<ChatMessage
-						previousMessage={messages.get(i - 1)}
+						previousMessage={messages.get(i + 1)}
 						key={message.get('uuid')}
 						message={message}
 						onPress={onMessagePress}
@@ -30,10 +32,11 @@ class Messages extends React.Component {
 	render() {
 		const {messages, onMessagePress, users} = this.props;
 
+
 		return (<View style={[this.props.style, STYLES['wrapper']]}>
-			<ScrollView style={STYLES['scroll']}>
+			<InvertibleScrollView style={STYLES['scroll']} inverted>
 				{messages.reverse().reduce(_partialRight(this.renderMessage, {onMessagePress, users}), [])}
-			</ScrollView>
+			</InvertibleScrollView>
 		</View>)
 	}
 }

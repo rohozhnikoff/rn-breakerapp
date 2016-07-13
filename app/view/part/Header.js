@@ -7,7 +7,6 @@ const STYLES = StyleSheet.create({
 		padding: 12,
 		paddingTop: 28,
 
-		flex: 1,
 		flexDirection: 'row'
 	},
 	'title': {
