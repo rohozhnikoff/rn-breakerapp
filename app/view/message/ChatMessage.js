@@ -53,16 +53,30 @@ const STYLES = StyleSheet.create({
 // const timeZoneOffset = Math.abs((new Date()).getTimezoneOffset() / 60);
 
 class ChatMessage extends React.Component {
+	isntRepeated() {
+		const {previousMessage, message} = this.props;
+
+		if(!previousMessage) {
+			return true
+		}
+		console.log(5555555, previousMessage.get('username'), message.get('username'));
+		//return true;
+		return previousMessage.get('username') !== message.get('username')
+	}
 	render() {
 		const {message, onPress, user} = this.props;
 
 		//
 		//user.get('online')
 
+		//console.log(876876, this.isntRepeated());
+		// message.get('username')) === displayName
+		//
+
 		return (<TouchableOpacity onPress={onPress.bind(null, message.get('username'))}>
 			<View style={STYLES['wrapper']}>
 				<View style={STYLES['avatar-col']}>
-					<Icon uri={user.get('profileImageUrl')} width={40} height={40} style={STYLES['avatar']} />
+					{this.isntRepeated() && <Icon uri={user.get('profileImageUrl')} width={40} height={40} style={STYLES['avatar']} />}
 				</View>
 
 				<View style={STYLES['message-col']}>
@@ -80,6 +94,9 @@ class ChatMessage extends React.Component {
 }
 
 ChatMessage.defaultProps = {};
-ChatMessage.propTypes = {};
+ChatMessage.propTypes = {
+	previousMessage: PropTypes.object,
+	onPress: PropTypes.func
+};
 
 export default ChatMessage;
