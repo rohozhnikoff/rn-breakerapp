@@ -10,6 +10,15 @@ const STYLES = StyleSheet.create({
 	}
 });
 
+const makeUriWithDomain = (uri) => {
+	if (uri.indexOf('http') === 0) {
+		return uri
+	}
+	return ['http://breakerapp.com', uri].join(
+			uri.indexOf('/') === 0 ? '' : '/'
+	)
+};
+
 
 function Icon(props) {
 	const {uri, style, iconStyle, width, height} = props;
@@ -19,9 +28,10 @@ function Icon(props) {
 		height: height || 20,
 	};
 	const imgStyle = [STYLES['img'], iconStyle, sizeStyles];
+	console.log(987, uri);
 
 	return <View style={[STYLES['wrapper'], style, sizeStyles]}>
-		{uri ? <Image style={imgStyle} source={{uri: uri}} /> : null}
+		{uri ? <Image style={imgStyle} source={{uri: makeUriWithDomain(uri)}} /> : null}
 	</View>
 }
 

@@ -11,6 +11,7 @@
     "eventemitter3": "^1.2.0",
     "immutable": "^3.8.0",
     "lodash": "^4.13.1",
+    "moment": "^2.14.1",
     "react": "15.1.0",
     "react-native": "^0.28.0",
     "react-native-side-menu": "^0.19.0",

@@ -50,9 +50,11 @@ class Header extends React.Component {
 		const {connected, isSidebarOpen, onSandwichPress, roomName} = this.props;
 
 		return (<View style={[this.props.style, STYLES['wrapper']]}>
+
 			<TouchableHighlight onPress={onSandwichPress} style={STYLES['sandwich-wrapper']}>
 				<Text style={STYLES['sandwich']}>{isSidebarOpen ? '-' : '+'}</Text>
 			</TouchableHighlight>
+
 			<Text style={STYLES['title']}>
 				{`#${roomName} `}
 				<Text style={[STYLES['status'], {color: connected ? 'green' : 'gray'}] }>({connected ? 'online' : 'offline'})</Text>

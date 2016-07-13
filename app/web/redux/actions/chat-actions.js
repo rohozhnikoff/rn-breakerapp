@@ -66,7 +66,6 @@ export function handleChangeRoom(roomName) {
     }
 
     const state = getState();
-    console.log(345, roomName, state.toJS());
     const lastMessageTime = state.getIn(
         ['messages', state.getIn(['roomMessages', roomName]).last(), 'createDateLongUTC']
     );
