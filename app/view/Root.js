@@ -56,6 +56,13 @@ class Root extends React.Component {
 		}
 	}
 
+	onSubmitEditing({roomName, fieldText, onSendNewMessage}) {
+		onSendNewMessage(roomName, fieldText);
+
+		this.setState({
+			fieldText: ''
+		})
+	}
 	render() {
 		const { roomName, messages, connected, users, isSidebarOpen, activeRoomList, roomList,
 				toggleSidebarHandle, onSendNewMessage, onRoomChange,
@@ -85,7 +92,7 @@ class Root extends React.Component {
 
 					<View style={[STYLES['message-field'], {height: height * 0.1}]}>
 						<TextInput style={STYLES['message-input']}
-								onSubmitEditing={() => onSendNewMessage(roomName, fieldText)}
+								onSubmitEditing={this.onSubmitEditing.bind(this, {roomName, fieldText, onSendNewMessage})}
 								value={fieldText}
 								onChangeText={(text) => this.setState({fieldText: text})}
 						/>
