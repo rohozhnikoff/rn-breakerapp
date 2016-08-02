@@ -9,7 +9,7 @@ let lastPingTime = null;
 import RNReconnectingWebSocket from '../rn-reconnecting-websocket.js'
 
 function socketConnect () {
-  let websocketUrl = Config.websocket_url.replace('ws:', 'wss:');
+  let websocketUrl = Config.websocket_url.replace('ws:', 'wss:') ;
   const socketOptions = {
     debug: false,
     reconnectInterval: 5000,
