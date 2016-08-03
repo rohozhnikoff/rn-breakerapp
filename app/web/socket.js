@@ -8,8 +8,8 @@ let lastPingTime = null;
 
 import RNReconnectingWebSocket from '../rn-reconnecting-websocket.js'
 
-function socketConnect () {
-  let websocketUrl = Config.websocket_url.replace('ws:', 'wss:') ;
+function socketConnect (authCode) {
+  let websocketUrl = Config.websocket_url.replace('ws:', 'wss:') + authCode;
   const socketOptions = {
     debug: false,
     reconnectInterval: 5000,
@@ -19,9 +19,9 @@ function socketConnect () {
   socket = new RNReconnectingWebSocket(websocketUrl, null, socketOptions);
 }
 
-function init(store) {
+function init(store, authCode) {
 
-  socketConnect();
+  socketConnect(authCode);
 
   let pingTimeout = null;
 
@@ -113,9 +113,9 @@ function init(store) {
   };
 }
 
-export default function (store) {
+export default function (store, authCode) {
   if (!socket) {
-    init(store);
+    init(store, authCode);
   }
 
   return socket;

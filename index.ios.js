@@ -58,8 +58,12 @@ class breaker_mobile extends Component {
 				'X-BreakerAccessCode': this.state.authCode
 			}
 		}).then((res) => {
-			console.log("Got server response.");
-			return res.json();
+			if (res.ok) {
+				console.log("Got valid server response.");
+				return res.json();
+			} else {
+				return null;
+			}
 		});
 		// return new Promise((resolve) => resolve(initialStateJSON))
 	};
@@ -67,7 +71,17 @@ class breaker_mobile extends Component {
 	setupAppFromInitialState() {
       this.fetchInitialState()
         .then((__INITIAL_STATE__) => {
-          console.log(555);
+					if (__INITIAL_STATE__ == null) {
+						console.log("Error getting initial state, logging out.");
+						AsyncStorage.removeItem('authcode');
+						this.setState({
+							loggedIn: false,
+							authCode: ''
+						});
+
+						return;
+					}
+          console.log('Processing initial state...');
           const reachedInitialState = _assign(__INITIAL_STATE__, {
             //currentRoom: 'zikapp'
             currentRoom: 'breakerapp'
@@ -75,7 +89,7 @@ class breaker_mobile extends Component {
 
           const store = createRootStore(reachedInitialState);
 
-          initSocket(store);
+          initSocket(store, this.state.authCode);
 
           this.setState({
             initialStateFetched: true,
